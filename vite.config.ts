@@ -8,8 +8,8 @@ export default defineConfig({
       '/api': {
         target: 'https://api.timbu.cloud',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ''),
-      },
-    },
-  },
+        rewrite: (path) => path.replace(/^\/api/, '')
+      }
+    }
+  }
 })

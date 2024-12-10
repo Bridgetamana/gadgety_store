@@ -1,13 +1,19 @@
 import axios from 'axios';
 
-const baseUrl = 'https://api.timbu.cloud';
 const organizationId = import.meta.env.VITE_ORGANIZATION_ID;
 const appid = import.meta.env.VITE_API_ID;
 const apikey = import.meta.env.VITE_API_KEY;
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const apiClient = axios.create({
+  baseURL: '/api',
+  headers: {
+    "Access-Control-Allow-Origin": "*",
+    'Content-Type': 'application/json'
+  }
+});
+
 export const fetchProducts = async (page: number): Promise<any> => {
-    const { data } = await axios.get(`${baseUrl}/products`, {
+    const { data } = await apiClient.get('/products', {
         params: {
             organization_id: organizationId,
             page,
@@ -19,9 +25,8 @@ export const fetchProducts = async (page: number): Promise<any> => {
     return data;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const fetchSingleProduct = async (id: string): Promise<any> => {
-    const { data } = await axios.get(`${baseUrl}/products/${id}`, {
+    const { data } = await apiClient.get(`/products/${id}`, {
         params: {
             organization_id: organizationId,
             Appid: appid,

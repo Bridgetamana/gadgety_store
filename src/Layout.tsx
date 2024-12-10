@@ -4,10 +4,13 @@ import Footer from './components/Footer'
 
 const Layout = () => {
   return (
-    <div>
-        <Nav />
-        <Outlet />
-        <Footer />
+    <div className='flex flex-col min-h-screen'>
+      <Nav />
+      <div className='flex-grow'>
+
+      <Outlet />
+      </div>
+      <Footer />
     </div>
   )
 }

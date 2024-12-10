@@ -39,6 +39,9 @@ const ProductDetail: React.FC = () => {
         const loadProductDetail = async () => {
             try {
                 const data = await fetchSingleProduct(id as string);
+                if (data.available_quantity === 0) {
+                    data.is_available = false;
+                }
                 setProduct(data);
             } catch (err) {
                 if (err instanceof Error) {
@@ -84,17 +87,35 @@ const ProductDetail: React.FC = () => {
                         <h4 className="text-[40px] font-semibold leading-[40px] my-4">{product.name}</h4>
                         <span className="flex gap-4 items-center">
                             <p className="text-[20px]">₦{product.current_price}</p>
-                            <p className="line-through text-sm">₦{product.discounted_price}</p>
-                            <span className={`${product.is_available ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-                                } text-xs font-medium me-2 px-2.5 py-0.5 rounded`}>
+
+                            {product.discounted_price > 0 && (
+                                <p className="line-through text-sm">₦{product.discounted_price}</p>
+                            )}
+
+                            <span
+                                className={`${
+                                    product.is_available
+                                        ? 'bg-green-100 text-green-800'
+                                        : 'bg-red-100 text-red-800'
+                                } text-xs font-medium me-2 px-2.5 py-0.5 rounded`}
+                            >
                                 {product.is_available ? "Available" : "Not Available"}
                             </span>
                         </span>
-                        <p className="text-sm text-gray-600">Available Quantity: {product.available_quantity}</p>
+                        <p className="text-sm text-gray-600">
+                            Available Quantity: {product.available_quantity}
+                        </p>
                     </div>
                     <div className="mt-8 mb-4 space-y-4 md:flex gap-4 md:space-y-0">
-                        <button className="w-full py-4 border border-blue-primary-60 rounded hover:bg-blue-100 transition">Add to Wishlist</button>
-                        <button className="w-full py-4 border border-blue-primary-60 rounded text-white bg-blue-primary-60 hover:bg-blue-primary-70 transition" onClick={handleAddToCart}>Add to Cart</button>
+                        <button className="w-full py-4 border border-blue-primary-60 rounded hover:bg-blue-100 transition">
+                            Add to Wishlist
+                        </button>
+                        <button
+                            className="w-full py-4 border border-blue-primary-60 rounded text-white bg-blue-primary-60 hover:bg-blue-primary-70 transition"
+                            onClick={handleAddToCart}
+                        >
+                            Add to Cart
+                        </button>
                     </div>
                 </div>
                 <div className="mt-8 md:w-1/2">
